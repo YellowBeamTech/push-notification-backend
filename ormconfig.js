@@ -11,6 +11,9 @@ const config = {
     "username": process.env.DB_USER,
     "password": process.env.DB_PASSWORD,
     "database": process.env.DB_DATABASE,
+    extra: {
+      ssl: false
+    },
     "synchronize": true,
     "logging": true,
     "entities": ["src/entity/**/*.ts"],
