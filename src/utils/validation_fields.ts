@@ -47,10 +47,21 @@ export const signinValidations = [
     .not()
     .isEmpty()
     .withMessage('Invalid email provided'),
-  // body('phone_no').optional({ nullable: false }).matches(/^[\+]?[(]?[0-9]{3,4}[)]?[-\s\.]?[0-9]{3,4}[-\s\.]?[0-9]{4,7}$/im).withMessage('mobile_number not vaild'),
-
 ]
 
+export const forgotPasswordValidations = [
+  body('email')
+    .isEmail()
+    .not()
+    .isEmpty()
+    .withMessage('Invalid email provided')
+]
+export const resetPasswordValidations = [
+  body('password')
+    .not()
+    .isEmpty()
+    .withMessage('password not provided')
+]
 
 export const deviceRegisterValidations = [
   body('deviceToken')
