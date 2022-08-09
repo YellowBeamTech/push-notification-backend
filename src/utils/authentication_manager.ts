@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { nextTick } from "process";
 import { UserTokenData } from "../interface/User";
+import * as crypto from 'crypto'
 
 
 /**
@@ -42,4 +43,12 @@ export const verifyJWT = async (token: string): Promise<UserTokenData> => {
     return undefined;
   }
 
+}
+
+export const genCryptoHash = async (bytes: string): Promise<string> => {
+  return await crypto
+    .createHash('sha256')
+    .update(bytes)
+    .digest()
+    .toString('hex')
 }
