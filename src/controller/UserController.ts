@@ -71,7 +71,6 @@ export class UserController {
     try {
       const { email, password } = req.body;
       const user = await getRepository(User).findOne({ email: email })
-      console.log('user', user)
       if (!user) {
         throw new Error("This User dose not exist");
       }
@@ -111,7 +110,7 @@ export class UserController {
       const bytes = crypto.randomBytes(14).toString('hex')
       const hash = await genCryptoHash(bytes)
       req.body.reset_token = hash;
-      const result = await getRepository(User).save(req.body);
+      const result = await userRepository.save(req.body);
       const data = await getMailOptions({
         email: result.email,
         first_name: result.firstName,
@@ -147,7 +146,7 @@ export class UserController {
       const bytes = crypto.randomBytes(14).toString('hex')
       const hash = await genCryptoHash(bytes)
       isUserExist.reset_token = hash;
-      const result = await getRepository(User).save(isUserExist);
+      const result = await userRepository.save(isUserExist);
       const data = await getMailOptions({
         email: result.email,
         first_name: result.firstName,
@@ -184,7 +183,7 @@ export class UserController {
       const encrypted_pass = await hashPassword(password)
       isUserExist.password = encrypted_pass;
       isUserExist.reset_token = null;
-      await getRepository(User).save(isUserExist);
+      await userRepository.save(isUserExist);
       res.status(201).json({ Message: 'Password updated successfully' })
     } catch (err) {
       next(err)

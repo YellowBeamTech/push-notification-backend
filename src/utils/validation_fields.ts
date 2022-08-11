@@ -69,3 +69,64 @@ export const deviceRegisterValidations = [
     .isEmpty()
     .withMessage('please provide device registration token')
 ]
+
+export const pushNotificationValidations = [
+  body('description')
+    .not()
+    .isEmpty()
+    .withMessage('please provide notification detail')
+]
+
+export const createPackageValidations = [
+  body('name')
+    .not()
+    .isEmpty()
+    .withMessage('name not provided'),
+  body('description')
+    .not()
+    .isEmpty()
+    .withMessage('description not provided'),
+  body('no_of_notifications')
+    .not()
+    .isEmpty()
+    .withMessage('no_of_notifications not provided'),
+  body('expairy_time')
+    .not()
+    .isEmpty()
+    .withMessage('expairy_time not provided'),
+  body('price')
+    .not()
+    .isEmpty()
+    .withMessage('price not provided'),
+  body('currency')
+    .not()
+    .isEmpty()
+    .withMessage('currency not provided'),
+]
+ 
+export const updatePackageValidations = [
+  body('name')
+    .not()
+    .isEmpty()
+    .withMessage('name not provided'),
+  body('description')
+    .not()
+    .isEmpty()
+    .withMessage('description not provided'),
+  body('no_of_notifications')
+    .not()
+    .isEmpty()
+    .withMessage('no_of_notifications not provided'),
+  body('expairy_time')
+    .not()
+    .isEmpty()
+    .withMessage('expairy_time not provided'),
+  body('price')
+    .not()
+    .isEmpty()
+    .withMessage('price not provided'),
+  body('currency')
+    .not()
+    .isEmpty()
+    .withMessage('currency not provided'),
+]
