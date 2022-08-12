@@ -68,7 +68,7 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "build:start": "NODE_ENV=development npx ts-node build/src/index.js",
-    "build": "npx tsc --project ./",
+    "build": "yarn seed:run:prod && npx tsc --project ./",
     "dev:win": "set NODE_ENV=development && nodemon",
     "dev": "NODE_ENV=development nodemon start",
     "test": "set NODE_ENV=test && mocha --watch --require ts-node/register",
@@ -78,6 +78,7 @@
     "seed:run:win": "npm run typeormwin migration:run -- -c development",
     "seed:generate": "npm run typeorm migration:generate -- -n 'initial' -c development",
     "seed:run": "npm run typeorm migration:run -- -c development",
+    "seed:run:prod": "npm run typeorm migration:run -- -c production",
     "docker:build": "docker build -t type-express .",
     "docker:start": "docker-compose up -d",
     "create:migration": "npx typeorm migration:create --dir src/migration --name"
