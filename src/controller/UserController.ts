@@ -11,8 +11,14 @@ import { getMailOptions } from '../utils/get_mail_body';
 export class UserController {
   async all(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await getRepository(User).find();
-      res.status(201).json({ result: result })
+      const status = req.query.status;
+      if(!req.user.is_admin){
+        throw new Error("User is not authorized");
+      }else{
+        const result = req.query.status ? await getRepository(User).find({status: status}) : await getRepository(User).find();
+        res.status(201).json({ result: result })
+      }
+      
     } catch (err) {
       next(err)
     }
@@ -31,11 +37,11 @@ export class UserController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
-
+      const { firstName, lastName, phone_no } = req.body
       const result = await getRepository(User)
         .createQueryBuilder()
         .update(User)
-        .set(req.body)
+        .set({ firstName:firstName, lastName:lastName, phone_no:phone_no })
         .where("id = :id", { id: req.params.id })
         .execute()
       if (result.affected === 1) {
