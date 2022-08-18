@@ -27,6 +27,7 @@ export class PackageController {
 
   async update(req: Request, res: Response, next: NextFunction) {
     try {
+      if (!req.user.is_admin) throw new Error("You are not authorized");
 
       const result = await getRepository(Package)
         .createQueryBuilder()
@@ -46,6 +47,8 @@ export class PackageController {
   }
   async remove(req: Request, res: Response, next: NextFunction) {
     try {
+      if (!req.user.is_admin) throw new Error("You are not authorized");
+
       const data = await getRepository(Package)
         .createQueryBuilder()
         .softDelete()
@@ -54,7 +57,6 @@ export class PackageController {
         .execute();
       if (data.affected === 1) {
         res.status(201).json({ message: 'record successfully deleted' })
-
       } else {
         throw new NotFoundError();
       }
@@ -66,15 +68,15 @@ export class PackageController {
 
   async save(req: Request, res: Response, next: NextFunction) {
     try {
+      if (!req.user.is_admin) throw new Error("You are not authorized");
+
       const packageRepository = getRepository(Package);
       const { isValid, errors } = field_validator(req)
-      if (!isValid) {
-        throw new Err('invalid fields sent.', 400, errors);
-      }
+      if (!isValid) throw new Err('invalid fields sent.', 400, errors);
+
       const isEmailExist = await packageRepository.count({ name: ILike(req.body.name) })
-      if (isEmailExist > 0) {
-        throw new Error("This name is already exist");
-      }
+      if (isEmailExist > 0) throw new Error("This name is already exist");
+
       const result = await packageRepository.save(req.body);
       res.status(201).json({ message: 'Package created successfully', result: result })
     } catch (err) {
