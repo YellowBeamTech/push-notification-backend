@@ -14,7 +14,7 @@ export class UserController {
       const status = req.query.status;
       if (!req.user.is_admin) throw new Error("User is not authorized");
 
-      const result = req.query.status ? await getRepository(User).find({ status: status, id: Not(req.user.id) }) : await getRepository(User).find({ id: Not(req.user.id) });
+      const result = req.query.status ? await getRepository(User).find({where:{ status: status, id: Not(req.user.id) }}) : await getRepository(User).find({ id: Not(req.user.id) });
       res.status(201).json({ result: result })
 
     } catch (err) {
@@ -24,7 +24,6 @@ export class UserController {
 
   async one(req: Request, res: Response, next: NextFunction) {
     try {
-      console.log('req.user.is_admin',req.user.is_admin)
       if (!req.user.is_admin && req.user.id != req.params.id) throw new NotFoundError();
 
       const result = await getRepository(User).findOne(req.params.id);
@@ -46,9 +45,13 @@ export class UserController {
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         phone_no: req.body.phone_no,
+        country: req.body.country,
+        postal_code: req.body.postal_code,
+        date_of_birth: req.body.date_of_birth,
+        gender: req.body.gender,
         status: req.user.is_admin ? req.body.status : isUserExist.status
       }
-
+     
       const result = await userRepository
         .createQueryBuilder()
         .update(User)
@@ -91,7 +94,7 @@ export class UserController {
       const user = await getRepository(User).findOne({ email: email })
       if (!user) throw new Error("This User dose not exist");
 
-      if (!await comparePassword(user.password, password)) throw new Error("Invalid password");
+      if (!user.password || !await comparePassword(user.password, password)) throw new Error("Invalid password");
 
       const result = {
         token: await generateUserJWT(
@@ -185,7 +188,7 @@ export class UserController {
       const { isValid, errors } = field_validator(req)
       if (!isValid) throw new Err('invalid fields sent.', 400, errors);
 
-      const hash = await genCryptoHash(token)
+      const hash = await genCryptoHash(token as string)
       const isUserExist = await userRepository.findOne({ reset_token: hash })
       if (!isUserExist) throw new Error("Illegal token attempt.");
 
