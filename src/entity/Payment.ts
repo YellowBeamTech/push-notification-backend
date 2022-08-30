@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne } from 'typeorm';
+import { User } from './User';
 
 @Entity()
 export class Payment {
@@ -9,16 +10,16 @@ export class Payment {
   user_id: string;
 
   @Column()
-  transaction_id: string;
+  charge_id: string;
 
   @Column()
-  name: string;
+  card_id: string;
 
   @Column()
-  email: string;
+  fingerprint: string;
 
   @Column()
-  amount: number;
+  customer_id: string;
 
   @Column()
   stripe_token: string;
@@ -38,4 +39,6 @@ export class Payment {
   })
   deleted_at: Date | null;
 
+  @OneToOne(() => User, (user) => user.payment)
+  user: User;
 }

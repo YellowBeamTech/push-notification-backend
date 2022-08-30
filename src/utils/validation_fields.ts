@@ -130,3 +130,19 @@ export const updatePackageValidations = [
     .isEmpty()
     .withMessage('currency not provided'),
 ]
+
+export const paymentValidations = [
+  body('token')
+    .not()
+    .isEmpty()
+    .withMessage('token not provided'),
+  body('user_id')
+    .not()
+    .isEmpty()
+    .withMessage('user_id not provided'),
+  body('package_id')
+    .not()
+    .isEmpty()
+    .withMessage('package_id not provided'),
+
+]

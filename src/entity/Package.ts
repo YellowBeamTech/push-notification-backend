@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToOne, OneToMany, JoinColumn } from 'typeorm';
 import { User } from './User';
 
 export enum currency {
@@ -47,7 +47,8 @@ export class Package {
   })
   deleted_at: Date | null;
 
-  @OneToOne(() => User, (user) => user.usePackage)
-  user: User;
+  @OneToMany(() => User, (user) => user.userPackage)
+  @JoinColumn({ referencedColumnName: "package_id" })
+  user: User[];
 
 }

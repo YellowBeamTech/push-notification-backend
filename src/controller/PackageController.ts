@@ -3,6 +3,7 @@ import { Request, Response, NextFunction } from 'express';
 import { Package } from '../entity/Package';
 import { Err, NotFoundError } from '../common/errorValidation/errors';
 import field_validator from '../utils/field_validator';
+import { User } from '../entity/User';
 
 export class PackageController {
   async all(req: Request, res: Response, next: NextFunction) {
@@ -79,6 +80,28 @@ export class PackageController {
 
       const result = await packageRepository.save(req.body);
       res.status(201).json({ message: 'Package created successfully', result: result })
+    } catch (err) {
+      next(err)
+    }
+  }
+
+
+  async subscriptionReport(req: Request, res: Response, next: NextFunction) {
+    try {
+      if (!req.user.is_admin) throw new Error("You are not authorized");
+
+     console.log('req.params.package_id', req.query.package_id)
+      const result = await getRepository(User).createQueryBuilder("user")
+          .leftJoinAndSelect("user.userPackage", "pakage")
+          .where("user.package_id IS NOT NULL")
+      if (req.query.package_id) {
+          const packageExist = await getRepository(Package).count({where: {id: req.query.package_id}} );
+      if (packageExist <= 0) throw new Error("Package dose not exist");
+
+          result.andWhere("pakage.id = :pakage_id", { pakage_id: req.query.package_id })
+      }
+      const withPaginationQB =await result.skip(0).getMany();
+      res.status(201).json({ result: withPaginationQB })
     } catch (err) {
       next(err)
     }

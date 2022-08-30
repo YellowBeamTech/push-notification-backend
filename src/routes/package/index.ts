@@ -6,11 +6,13 @@ import { createPackageValidations, forgotPasswordValidations, resetPasswordValid
 const packageRouter = Router()
 const packageController = new PackageController;
 
+packageRouter.route('/report').get(validateRequest,packageController.subscriptionReport)
 packageRouter.route('/').get(validateRequest,packageController.all)
 packageRouter.route('/:id').get(validateRequest,packageController.one)
 packageRouter.route('/:id').delete(validateRequest,packageController.remove)
 packageRouter.route('/:id').put(validateRequest,updatePackageValidations, packageController.update)
 packageRouter.route('/').post(validateRequest, createPackageValidations,packageController.save)
+
 
 
 export = packageRouter
