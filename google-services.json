@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "426540293866",
+    "project_id": "eiicuiiapp",
+    "storage_bucket": "eiicuiiapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426540293866:android:94dfae9d9eb36ab3480193",
+        "android_client_info": {
+          "package_name": "com.news.chat.news_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "426540293866-ciuj3rdu15l79env7dquearngqqq6s0l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.news.chat.news_chat",
+            "certificate_hash": "46f9addac2124b8d0dedb1b11091aa87e3c3f511"
+          }
+        },
+        {
+          "client_id": "426540293866-2pkfca9c8o5coe9fbteslp80md9t0fco.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCI72m7bYTCXXT36rgGEjoAxPGi-vVeja4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "426540293866-2pkfca9c8o5coe9fbteslp80md9t0fco.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

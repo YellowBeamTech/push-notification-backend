@@ -38,7 +38,8 @@ export const generateUserJWT = async (userId: string, user_email: string, isAdmi
  */
 export const verifyJWT = async (token: string): Promise<UserTokenData> => {
   try {
-    return jwt.verify(token, process.env.JWT_SECRET || 'secret');
+     const result = jwt.verify(token, process.env.JWT_SECRET || 'secret');
+     return result as UserTokenData
   } catch (error) {
     return undefined;
   }

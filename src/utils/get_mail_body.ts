@@ -1,4 +1,5 @@
 import { forget_password, user_register, contact_us } from '../email_template'
+import account_activation from '../email_template/account_activation'
 import { EmailOptions } from '../interface/Email'
 
 export const
@@ -41,6 +42,8 @@ export const
       options.html = (await forget_password(first_name, last_name, domain, company_name, company_logo))
     } else if (type === 'contact-us') {
       options.html = await contact_us(first_name, last_name, phone_number, message, user_email)
+    }else if (type === 'account_activation') {
+      options.html = await account_activation(first_name, last_name, company_name, company_logo)
     }
     return options
   }

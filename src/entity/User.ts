@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, JoinColumn, OneToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, JoinColumn, OneToOne, ManyToOne } from 'typeorm';
 import { userInterface } from '../interface/User';
 import { Package } from './Package';
+import { Payment } from './Payment';
 
 export enum status {
   ACTIVE = 'active',
@@ -55,6 +56,9 @@ export class User {
   @Column({nullable: true})
   reset_token: string;
 
+  @Column({nullable: true})
+  transaction_id: string;
+
   @Column({default: false})
   is_deleted: boolean;
 
@@ -70,9 +74,13 @@ export class User {
   })
   deleted_at: Date | null;
 
-  @OneToOne(() => Package, (userPackage) => userPackage.user)
+  @ManyToOne(() => Package, (userPackage) => userPackage.user)
   @JoinColumn({ name: "package_id" })
-  usePackage: Package;
+  userPackage: Package;
+
+  @OneToOne(() => Payment, (payment) => payment.user)
+  @JoinColumn({ name: "transaction_id" })
+  payment: Payment;
 
   // public static mockTestBoard(): userInterface {
   //   const user: User = new User();
