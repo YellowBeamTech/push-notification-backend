@@ -119,7 +119,7 @@ export class NotificationController {
         'notification': payload.notification,
         'registration_ids': tokens
       }
-      fetch('https://fcm.googleapis.com/fcm/send', {
+     await fetch('https://fcm.googleapis.com/fcm/send', {
         'method': 'POST',
         'headers': {
           // replace authorization key with your key
@@ -129,7 +129,7 @@ export class NotificationController {
         'body': JSON.stringify(notification_body)
       }).then(function (response) {
         console.log(response);
-      res.status(201).json({ response: response })
+        res.status(response.status).json({ data: response.statusText })
 
       }).catch(function (error) {
         console.error(error);

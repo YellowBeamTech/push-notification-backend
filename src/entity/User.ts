@@ -7,6 +7,12 @@ export enum status {
   ACTIVE = 'active',
   DEACTIVE = 'deactive',
 }
+
+export enum gender {
+  MALE = 'male',
+  FEMALE = 'female',
+  OTHER = 'other',
+}
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -45,7 +51,27 @@ export class User {
   social_login: boolean;
 
   @Column({nullable: true})
-  social_token: boolean;
+  social_token: string;
+
+  @Column({nullable: true})
+  social_id: string;
+
+  @Column({nullable: true})
+  country: string;
+
+  @Column({nullable: true})
+  postal_code: string;
+
+  @Column({nullable: true})
+  date_of_birth: Date;
+
+  @Column({
+    type: 'enum',
+    enum: gender,
+    nullable: true,
+    default: gender.MALE
+  })
+  gender: gender;
 
   @Column({nullable: true})
   package_id: string;

@@ -5,6 +5,10 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import multer from 'multer';
 import { errorHandler } from './common/errorValidation/error';
+import authRoutes from "./routes/authenticate/index";
+import "./utils/passportConfig";
+import cookieSession from "cookie-session";
+import passport from "passport";
 
 const fileUpload = multer();
 
@@ -25,11 +29,23 @@ export function initMiddleWare(app): void {
   })
   app.use(express.json())
   app.use(express.urlencoded({ extended: true }))
+  app.use(
+    cookieSession({
+      maxAge: 24 * 60 * 60 * 1000,
+      keys: [process.env.COOKIE_KEY],
+    })
+  );
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
   app.get('/', (req, res) => {
     res.send('Hello World!');
   });
 
   app.use('/api', require('./routes'))
+  app.use("/auth", authRoutes);
+
   app.use(errorHandler);
 }
 
